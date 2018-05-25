@@ -25,6 +25,7 @@ set (GenerateProductVersionCurrentDir ${CMAKE_CURRENT_LIST_DIR})
 # You can specify resource strings in arguments:
 #   NAME               - name of executable (no defaults, ex: Microsoft Word)
 #   BUNDLE             - bundle (${NAME} is default, ex: Microsoft Office)
+#   USE_ICON           - flag that shows whether icon is used or not
 #   ICON               - path to application icon (${CMAKE_SOURCE_DIR}/product.ico by default)
 #   VERSION_MAJOR      - 1 is default
 #   VERSION_MINOR      - 0 is default
@@ -41,6 +42,7 @@ function(generate_product_version outfiles)
     set (oneValueArgs
         NAME
         BUNDLE
+        USE_ICON
         ICON
         VERSION_MAJOR
         VERSION_MINOR
@@ -58,9 +60,14 @@ function(generate_product_version outfiles)
     if (NOT PRODUCT_BUNDLE OR "${PRODUCT_BUNDLE}" STREQUAL "")
         set(PRODUCT_BUNDLE "${PRODUCT_NAME}")
     endif()
-    if (NOT PRODUCT_ICON OR "${PRODUCT_ICON}" STREQUAL "")
-        set(PRODUCT_ICON "${CMAKE_SOURCE_DIR}/product.ico")
-    endif()
+
+    if (USE_ICON)
+        if (NOT PRODUCT_ICON OR "${PRODUCT_ICON}" STREQUAL "")
+            set(PRODUCT_ICON "${CMAKE_SOURCE_DIR}/product.ico")
+        endif()
+    else ()
+        set (USE_ICON 0)
+    endif ()
 
     if (NOT PRODUCT_VERSION_MAJOR EQUAL 0 AND (NOT PRODUCT_VERSION_MAJOR OR "${PRODUCT_VERSION_MAJOR}" STREQUAL ""))
         set(PRODUCT_VERSION_MAJOR 1)

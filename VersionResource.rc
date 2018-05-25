@@ -1,7 +1,9 @@
 #include "VersionInfo.h"
 #include "winres.h"
 
+#if USE_ICON
 IDI_ICON1               ICON                    PRODUCT_ICON
+#endif
 
 LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 
