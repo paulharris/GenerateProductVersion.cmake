@@ -92,8 +92,9 @@ function(generate_product_version outfiles)
         set(PRODUCT_FILE_DESCRIPTION "${PRODUCT_NAME}")
     endif()
 
-    set (_VersionInfoFile ${CMAKE_CURRENT_BINARY_DIR}/VersionInfo.h)
-    set (_VersionResourceFile ${CMAKE_CURRENT_BINARY_DIR}/VersionResource.rc)
+    set (_VersionInfoFile ${CMAKE_CURRENT_BINARY_DIR}/${PRODUCT_NAME}_VersionInfo.h)
+    set (_VersionResourceFile ${CMAKE_CURRENT_BINARY_DIR}/${PRODUCT_NAME}_VersionResource.rc)
+    set(PRODUCT_VERSION_HEADER ${_VersionInfoFile})
     configure_file(
         ${GenerateProductVersionCurrentDir}/VersionInfo.in
         ${_VersionInfoFile}
@@ -101,7 +102,7 @@ function(generate_product_version outfiles)
     configure_file(
         ${GenerateProductVersionCurrentDir}/VersionResource.rc
         ${_VersionResourceFile}
-        COPYONLY)
+        @ONLY)
     list(APPEND ${outfiles} ${_VersionInfoFile} ${_VersionResourceFile})
     set (${outfiles} ${${outfiles}} PARENT_SCOPE)
 endfunction()
