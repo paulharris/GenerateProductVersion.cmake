@@ -4,7 +4,7 @@ set (GenerateProductVersionCurrentDir ${CMAKE_CURRENT_LIST_DIR})
 
 # generate_product_version() function
 #
-# This function uses VersionInfo.in template file and VersionResource.rc file
+# This function uses ${NAME}_VersionInfo.in template file and ${NAME}_VersionResource.rc file
 # to generate WIN32 resource with version information and general resource strings.
 #
 # Usage:
