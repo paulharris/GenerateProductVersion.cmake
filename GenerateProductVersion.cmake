@@ -33,6 +33,13 @@ set(GENERATE_PRODUCT_VERSION_ROOT_PATH
 #   INTERNAL_NAME      - ${NAME} is default
 #   FILE_DESCRIPTION   - ${NAME} is default
 function(GenerateProductVersion VersionResourceFiles)
+    # -- Only generate the version files on Windows
+    if(NOT WIN32)
+        return()
+    endif()
+
+    message("Reached this")
+    
     cmake_parse_arguments(
         PRODUCT 
         "" 
@@ -42,12 +49,12 @@ function(GenerateProductVersion VersionResourceFiles)
     )
 
     # -- Create a default for the name of the product bundle
-    if (NOT DEFINED PRODUCT_BUNDLE)
+    if(NOT DEFINED PRODUCT_BUNDLE)
         set(PRODUCT_BUNDLE "${PRODUCT_NAME}")
     endif()
 
     # -- Create a default for the icon resource
-    if (NOT DEFINED PRODUCT_ICON)
+    if(NOT DEFINED PRODUCT_ICON)
         set(PRODUCT_ICON "${CMAKE_CURRENT_SOURCE_DIR}/product.ico")
     endif()
 
@@ -82,28 +89,28 @@ function(GenerateProductVersion VersionResourceFiles)
     endif()
 
     # -- Create a default for the company copyright
-    if (NOT DEFINED PRODUCT_COMPANY_COPYRIGHT)
+    if(NOT DEFINED PRODUCT_COMPANY_COPYRIGHT)
         string(TIMESTAMP PRODUCT_CURRENT_YEAR "%Y")
         set(PRODUCT_COMPANY_COPYRIGHT "${PRODUCT_COMPANY_NAME} (C) Copyright ${PRODUCT_CURRENT_YEAR}")
     endif()
 
     # -- Create a default for the product comments
-    if (NOT DEFINED PRODUCT_COMMENTS)
+    if(NOT DEFINED PRODUCT_COMMENTS)
         set(PRODUCT_COMMENTS "${PRODUCT_NAME} v${PRODUCT_VERSION}")
     endif()
 
     # -- Create a default for the original product filename
-    if (NOT DEFINED PRODUCT_ORIGINAL_FILENAME)
+    if(NOT DEFINED PRODUCT_ORIGINAL_FILENAME)
         set(PRODUCT_ORIGINAL_FILENAME "${PRODUCT_NAME}")
     endif()
     
     # -- Create a default for the internal product name
-    if (NOT DEFINED PRODUCT_INTERNAL_NAME)
+    if(NOT DEFINED PRODUCT_INTERNAL_NAME)
         set(PRODUCT_INTERNAL_NAME "${PRODUCT_NAME}")
     endif()
     
     # -- Create a default for the product file description
-    if (NOT DEFINED PRODUCT_FILE_DESCRIPTION)
+    if(NOT DEFINED PRODUCT_FILE_DESCRIPTION)
         set(PRODUCT_FILE_DESCRIPTION "${PRODUCT_NAME}")
     endif()
 
