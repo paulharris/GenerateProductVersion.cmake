@@ -37,8 +37,6 @@ function(GenerateProductVersion VersionResourceFiles)
     if(NOT WIN32)
         return()
     endif()
-
-    message("Reached this")
     
     cmake_parse_arguments(
         PRODUCT 
