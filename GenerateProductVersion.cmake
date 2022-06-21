@@ -125,14 +125,14 @@ function(GenerateProductVersion VersionResourceFiles)
 
     # -- Configure the version header file
     configure_file(
-        ${GENERATE_PRODUCT_VERSION_ROOT_PATH}/VersionInfo.in
+        ${GENERATE_PRODUCT_VERSION_ROOT_PATH}/VersionInfo.h.in
         ${VersionInfoFile}
         @ONLY
     )
 
     # -- Configure the version resource file
     configure_file(
-        ${GENERATE_PRODUCT_VERSION_ROOT_PATH}/VersionResource.rc
+        ${GENERATE_PRODUCT_VERSION_ROOT_PATH}/VersionResource.rc.in
         ${VersionResourceFile}
         @ONLY
     )
