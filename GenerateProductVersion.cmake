@@ -1,3 +1,5 @@
+# vim: set shiftwidth=4:tabstop=4:expandtab
+
 cmake_minimum_required(VERSION 3.14)
 
 set(GENERATE_PRODUCT_VERSION_ROOT_PATH 
@@ -7,7 +9,7 @@ set(GENERATE_PRODUCT_VERSION_ROOT_PATH
 
 # GenerateProductVersion() function
 #
-# This function uses VersionInfo.in template file and VersionResource.rc file
+# This function uses VersionInfo.h.in template file and VersionResource.rc.h file
 # to generate WIN32 resource with version information and general resource strings.
 #
 # Usage:
@@ -33,6 +35,7 @@ set(GENERATE_PRODUCT_VERSION_ROOT_PATH
 #   ORIGINAL_FILENAME  - ${NAME} is default
 #   INTERNAL_NAME      - ${NAME} is default
 #   FILE_DESCRIPTION   - ${NAME} is default
+#   SUFFIX_FOR_IN_FILES - Extra text to add to VersionInfo_xxx.h to avoid name collisions
 function(GenerateProductVersion VersionResourceFiles)
     # -- Only generate the version files on Windows
     if(NOT WIN32)
@@ -42,7 +45,7 @@ function(GenerateProductVersion VersionResourceFiles)
     cmake_parse_arguments(
         PRODUCT 
         "USE_ICON"
-        "NAME;BUNDLE;ICON;VERSION;COMPANY_NAME;COMPANY_COPYRIGHT;COMMENTS;ORIGINAL_FILENAME;INTERNAL_NAME;FILE_DESCRIPTION;"
+        "NAME;BUNDLE;ICON;VERSION;COMPANY_NAME;COMPANY_COPYRIGHT;COMMENTS;ORIGINAL_FILENAME;INTERNAL_NAME;FILE_DESCRIPTION;SUFFIX_FOR_IN_FILES;"
         ""
         ${ARGN}
     )
@@ -119,9 +122,15 @@ function(GenerateProductVersion VersionResourceFiles)
         set(PRODUCT_FILE_DESCRIPTION "${PRODUCT_NAME}")
     endif()
 
+    # Add a _ to the suffix, if we have one
+    if (PRODUCT_SUFFIX_FOR_IN_FILES)
+        set(PRODUCT_SUFFIX_FOR_IN_FILES "_${PRODUCT_SUFFIX_FOR_IN_FILES}")
+    endif()
+
     # -- Set the version resource file locations
-    set(VersionInfoFile     ${CMAKE_CURRENT_BINARY_DIR}/${PRODUCT_NAME}_VersionInfo.h)
-    set(VersionResourceFile ${CMAKE_CURRENT_BINARY_DIR}/${PRODUCT_NAME}_VersionResource.rc)
+    set(VersionInfoFile     ${CMAKE_CURRENT_BINARY_DIR}/VersionInfo${PRODUCT_SUFFIX_FOR_IN_FILES}.h)
+    set(VersionResourceFile ${CMAKE_CURRENT_BINARY_DIR}/VersionResource${PRODUCT_SUFFIX_FOR_IN_FILES}.rc)
+    set(PRODUCT_VERSION_HEADER "VersionInfo${PRODUCT_SUFFIX_FOR_IN_FILES}.h")
 
     # -- Configure the version header file
     configure_file(
