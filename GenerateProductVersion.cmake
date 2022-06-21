@@ -120,8 +120,8 @@ function(GenerateProductVersion VersionResourceFiles)
     endif()
 
     # -- Set the version resource file locations
-    set(VersionInfoFile     ${CMAKE_CURRENT_BINARY_DIR}/VersionInfo.h)
-    set(VersionResourceFile ${CMAKE_CURRENT_BINARY_DIR}/VersionResource.rc)
+    set(VersionInfoFile     ${CMAKE_CURRENT_BINARY_DIR}/${PRODUCT_NAME}_VersionInfo.h)
+    set(VersionResourceFile ${CMAKE_CURRENT_BINARY_DIR}/${PRODUCT_NAME}_VersionResource.rc)
 
     # -- Configure the version header file
     configure_file(
@@ -134,7 +134,7 @@ function(GenerateProductVersion VersionResourceFiles)
     configure_file(
         ${GENERATE_PRODUCT_VERSION_ROOT_PATH}/VersionResource.rc
         ${VersionResourceFile}
-        COPYONLY
+        @ONLY
     )
 
     # -- Create the list of version resource files
