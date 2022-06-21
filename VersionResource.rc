@@ -13,7 +13,9 @@
 	#include <winres.h>
 #endif
 
+#if USE_ICON
 IDI_ICON1               ICON                    PRODUCT_ICON
+#endif
 
 VS_VERSION_INFO VERSIONINFO
     FILEVERSION FILE_VERSION_RESOURCE
