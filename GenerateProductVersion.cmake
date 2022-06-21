@@ -24,7 +24,7 @@ set(GENERATE_PRODUCT_VERSION_ROOT_PATH
 # You can specify resource strings in arguments:
 #   NAME               - Name of executable (no defaults, ex: Microsoft Word)
 #   BUNDLE             - Bundle (${NAME} is default, ex: Microsoft Office)
-#   USE_ICON           - flag that shows whether icon is used or not
+#   USE_ICON           - Enable/disable the icon, will be set to true if ICON is supplied
 #   ICON               - Path to application icon (${CMAKE_SOURCE_DIR}/product.ico by default)
 #   VERSION            - The version of the product; Defaults to `${PROJECT_VERSION}`
 #   COMPANY_NAME       - Your company name (no defaults)
@@ -41,8 +41,8 @@ function(GenerateProductVersion VersionResourceFiles)
     
     cmake_parse_arguments(
         PRODUCT 
-        "" 
-        "NAME;BUNDLE;USE_ICON;ICON;VERSION;COMPANY_NAME;COMPANY_COPYRIGHT;COMMENTS;ORIGINAL_FILENAME;INTERNAL_NAME;FILE_DESCRIPTION;"
+        "USE_ICON"
+        "NAME;BUNDLE;ICON;VERSION;COMPANY_NAME;COMPANY_COPYRIGHT;COMMENTS;ORIGINAL_FILENAME;INTERNAL_NAME;FILE_DESCRIPTION;"
         ""
         ${ARGN}
     )
@@ -52,13 +52,15 @@ function(GenerateProductVersion VersionResourceFiles)
         set(PRODUCT_BUNDLE "${PRODUCT_NAME}")
     endif()
 
-    # -- Create a default for the icon resource
-    if (USE_ICON)
-        if (NOT DEFINED PRODUCT_ICON OR NOT PRODUCT_ICON OR "${PRODUCT_ICON}" STREQUAL "")
+    if (DEFINED PRODUCT_ICON)
+        set(PRODUCT_USE_ICON TRUE)
+    else()
+        if(PRODUCT_USE_ICON)
+            # -- Create a default for the icon resource
             set(PRODUCT_ICON "${CMAKE_CURRENT_SOURCE_DIR}/product.ico")
+        else()
+            set (PRODUCT_USE_ICON FALSE)
         endif()
-    else ()
-        set (USE_ICON 0)
     endif ()
 
     # -- Copy the icon resource to the binary directory

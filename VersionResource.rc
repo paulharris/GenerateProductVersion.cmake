@@ -13,7 +13,7 @@
 	#include <winres.h>
 #endif
 
-#if USE_ICON
+#if PRODUCT_USE_ICON
 IDI_ICON1               ICON                    PRODUCT_ICON
 #endif
 
